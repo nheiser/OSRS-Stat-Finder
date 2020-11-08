@@ -26,18 +26,17 @@ def home():
 		
 		response = requests.get(url, allow_redirects = False)
 		
-		
 		if (response.status_code != 200):
-			return render_template("osrs.html", stats = "Unable to load hiscores")
+			return render_template("error.html")
 		
 		stats = str(response.text)
 		
-		arrSkills = ["Attack", "Strength", "Defence", "Hitpoints", "Ranged", "Prayer", "Magic", "Cooking", "Woodcutting", "Fletching", "Fishing", "Firemaking", "Crafting", "Smithing", "Mining", "Herblore", "Agility", "Thieving", "Slayer", "Farming", "Runecraft", "Hunter", "Construction"]
+		arrSkills = ["Total", "Attack", "Strength", "Defence", "Hitpoints", "Ranged", "Prayer", "Magic", "Cooking", "Woodcutting", "Fletching", "Fishing", "Firemaking", "Crafting", "Smithing", "Mining", "Herblore", "Agility", "Thieving", "Slayer", "Farming", "Runecraft", "Hunter", "Construction"]
 		arrStats = []
 		
-		for i in range (0, 23):
+		for i in range (0, 24):
 		
-			stats = stats[stats.find('\n') + 1:]
+			#stats = stats[stats.find('\n') + 1:]
 			end = stats.find('\n')
 			statBar = stats[:end]
 		
@@ -51,6 +50,8 @@ def home():
 			level = statBar[0:end]
 			
 			arrStats.append(level)
+		
+			stats = stats[stats.find('\n') + 1:]
 		
 		
 		obj = {}

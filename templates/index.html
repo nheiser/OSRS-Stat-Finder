@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="../static/css/main.css" rel="stylesheet">
+
+<script src="https://unpkg.com/vue"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+
+</head>
+
+<title>OSRS Stat Finder</title>
+
+<body>
+
+<div id="app"> 
+
+
+Display Name: <input v-model="username" placeholder="">
+<input type="submit" v-on:click="updateStats(username)" value="Submit">
+
+[[ name ]]
+
+<table id="skills" width="300">
+
+<tr height="60">
+	<td><img src="https://oldschool.runescape.wiki/images/f/fe/Attack_icon.png?b4bce" alt="attack" />[[ stats.Attack ]]</td>
+	<td><img src="https://oldschool.runescape.wiki/images/9/96/Hitpoints_icon.png?a4819" alt="hitpoints" />[[ stats.Hitpoints ]]</td>
+	<td><img src="https://oldschool.runescape.wiki/images/4/4a/Mining_icon.png?00870" alt="mining" />[[ stats.Mining ]]</td>
+	
+</tr>
+
+<tr>
+	<td><img src="https://oldschool.runescape.wiki/images/1/1b/Strength_icon.png?e6e0c" alt="strength" />[[ stats.Strength ]]</td>
+	<td><img src="https://oldschool.runescape.wiki/images/8/86/Agility_icon.png?389e0" alt="agility" />[[ stats.Agility ]]</td>
+	<td><img src="https://oldschool.runescape.wiki/images/d/dd/Smithing_icon.png?d26c5" alt="smithing" />[[ stats.Smithing ]]</td>
+</tr>
+
+<tr>
+	<td><img src="https://oldschool.runescape.wiki/images/b/b7/Defence_icon.png?ca0cd" alt="defence" />[[ stats.Defence ]]</td>
+	<td><img src="https://oldschool.runescape.wiki/images/0/03/Herblore_icon.png?ffa9e" alt="herblore" />[[ stats.Herblore ]]</td>
+	<td><img src="https://oldschool.runescape.wiki/images/3/3b/Fishing_icon.png?15a98" alt="fishing" />[[ stats.Fishing ]]</td>
+</tr>
+
+<tr>
+	<td><img src="https://oldschool.runescape.wiki/images/1/19/Ranged_icon.png?01b0e" alt="ranged" />[[ stats.Ranged ]]</td>
+	<td><img src="https://oldschool.runescape.wiki/images/4/4a/Thieving_icon.png?973fe" alt="thieving" />[[ stats.Thieving ]]</td>
+	<td><img src="https://oldschool.runescape.wiki/images/d/dc/Cooking_icon.png?a0156" alt="cooking" />[[ stats.Cooking ]]</td>
+</tr>
+
+<tr>
+	<td><img src="https://oldschool.runescape.wiki/images/f/f2/Prayer_icon.png?ca0dc" alt="prayer" />[[ stats.Prayer ]]</td>
+	<td><img src="https://oldschool.runescape.wiki/images/c/cf/Crafting_icon.png?a1f71" alt="crafting" />[[ stats.Crafting ]]</td>
+	<td><img src="https://oldschool.runescape.wiki/images/9/9b/Firemaking_icon.png?45ea0" alt="firemaking" />[[ stats.Firemaking ]]</td>
+</tr>
+
+<tr>
+	<td><img src="https://oldschool.runescape.wiki/images/5/5c/Magic_icon.png?334cf" alt="magic" />[[ stats.Magic ]]</td>
+	<td><img src="https://oldschool.runescape.wiki/images/9/93/Fletching_icon.png?15cda" alt="fletching" />[[ stats.Fletching ]]</td>
+	<td><img src="https://oldschool.runescape.wiki/images/f/f4/Woodcutting_icon.png?6ead4" alt="woodcutting" />[[ stats.Woodcutting ]]</td>
+</tr>
+
+<tr>
+	<td><img src="https://oldschool.runescape.wiki/images/6/63/Runecraft_icon.png?c278c" alt="runecraft" />[[ stats.Runecraft ]]</td>
+	<td><img src="https://oldschool.runescape.wiki/images/2/28/Slayer_icon.png?cd34f" alt="slayer" />[[ stats.Slayer ]]</td>
+	<td><img src="https://oldschool.runescape.wiki/images/f/fc/Farming_icon.png?558fa" alt="farming" />[[ stats.Farming ]]</td>
+</tr>
+
+<tr>
+	<td><img src="https://oldschool.runescape.wiki/images/f/f6/Construction_icon.png?f9bf7" alt="construction" />[[ stats.Construction ]]</td>
+	<td><img src="https://oldschool.runescape.wiki/images/d/dd/Hunter_icon.png?8762f" alt="hunter" />[[ stats.Hunter ]]</td>
+	<td><img src="https://oldschool.runescape.wiki/images/b/bd/Stats_icon.png?1b467" alt="total level" /><br>[[ stats.Total ]]</td>
+</tr>
+
+
+</table>
+
+</body>
+
+
+<script>
+
+var myStats = new Vue({
+	el: '#app',
+	data: {
+		stats: [],
+		name: "Username"
+	},
+
+	delimiters: ['[[', ']]'],
+	
+	methods: {
+	
+		updateStats: function(username) {
+			
+			var query = { 'subject': username };
+			
+			fetch('/', {
+				
+				headers: {
+				'Accept': 'application/json',
+				'Content-Type': 'application/json'
+				},
+				method: "POST",
+				body: JSON.stringify(query)
+				
+			})
+			.then(response => response.json())
+			.then(json => { this.stats = json; this.name = username})
+			
+		}
+	}
+})
+</script>
+
+</html>
